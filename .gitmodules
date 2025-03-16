@@ -1,0 +1,3 @@
+[submodule "frozen-portfolio"]
+	path = frozen-portfolio
+	url = https://github.com/moni-sm/frozen-portfolio.git
