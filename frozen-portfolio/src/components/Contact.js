@@ -8,38 +8,45 @@ const Contact = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ // Handle form submission
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch('https://frozen-portfolio.onrender.com/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
+  // Send form data to the backend
+  try {
+    const response = await fetch('http://localhost:5000/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
 
-      const data = await response.json();
-      if (data.success) {
-        setPopupMessage('Message sent successfully!');
-        setShowPopup(true);
-        setName('');
-        setEmail('');
-        setMessage('');
-        setTimeout(() => setShowPopup(false), 3000);
-      } else {
-        setPopupMessage('Failed to send message. Please try again.');
-        setShowPopup(true);
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setPopupMessage('An error occurred. Please try again.');
+    const data = await response.json();
+    if (data.success) {
+      setPopupMessage('Message sent successfully!');
+      setShowPopup(true);
+    
+      // Clear the form fields
+      setName('');
+      setEmail('');
+      setMessage('');
+    
+      // Automatically close the popup after 3 seconds
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+    
+    } else {
+      setPopupMessage('Failed to send message. Please try again.');
       setShowPopup(true);
     }
-  };
-
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    setPopupMessage('An error occurred. Please try again.');
+    setShowPopup(true);
+  }
+};
   return (
     <section className="contact">
       <h1>Contact Me</h1>
