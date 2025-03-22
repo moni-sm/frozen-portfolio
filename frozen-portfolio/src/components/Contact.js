@@ -14,7 +14,7 @@ const Contact = () => {
 
   // Send form data to the backend
   try {
-    const response = await fetch('https://frozen-portfolio.onrender.com', {
+    const response = await fetch('http://localhost:5000/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
