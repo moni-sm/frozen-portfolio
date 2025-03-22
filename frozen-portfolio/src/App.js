@@ -29,7 +29,7 @@ function App() {
                 <div className="home-content">
                   {/* Welcome Text and Olaf Image Container */}
                   <div className="welcome-container">
-                    <h1>Welcome to My Portfolio!</h1>
+                    <h1 className='heading'>Welcome to My Portfolio!</h1>
                     <div className="olaf-container">
                       <img src={olafImage} alt="Olaf" className="olaf-image" />
                     </div>
@@ -93,7 +93,7 @@ function App() {
                         <strong>Skills Updated:</strong> I've added new skills to my repertoire. Visit the <a href="/skills">Skills</a> page to see what's new.
                       </li>
                       <li>
-                        <strong>Blog Post:</strong> Read my latest blog post on <a href="/blog">Blog</a>.
+                        <strong>Blog Post:</strong> Read my latest blog post on <a href="/">Blog</a>.
                       </li>
                     </ul>
                   </div>

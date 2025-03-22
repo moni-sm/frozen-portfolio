@@ -1,641 +1,718 @@
+Copy
+/* Reset default margins and ensure full-screen coverage */
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%; /* Ensure body and html take full height */
-  overflow: hidden; /* Hide scrollbar by default */
-}
-
-#root {
-  height: 100%; /* Ensure root takes full height */
   width: 100%;
-  overflow: auto; /* Enable scrolling only when needed */
+  min-height: 100%; /* Changed to min-height to allow growth */
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Hide scrollbar for Chrome, Safari, and Opera */
+/* Hide scrollbar for body/html */
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+  display: none;
+}
+body, html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Root element */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 #root::-webkit-scrollbar {
   display: none;
 }
-
-/* Hide scrollbar for IE, Edge, and Firefox */
 #root {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-  
-  .App {
-    text-align: center;
-    min-height: 100vh;
-    min-width:1000px;
-    background-image: url('./assets/frozen-background.jpeg'); /* Add your image path */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; 
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-    font-size: 24px;
-    font-weight: 900px;
-    color: white;
-    padding-top: 60px; /* Add padding to avoid overlap with the fixed navbar */
-  }
-
-  
-/* Pseudo-element for fixed background */
-.App::before {
-  content: '';
-  position: fixed; /* Fix the background */
-  top: 0;
-  left: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background-image: url('./assets/frozen-background.jpeg'); /* Add your image path */
-  background-size: cover; /* Ensure the image covers the entire viewport */
-  background-position: center; /* Center the image */
-  filter: blur(9px);
-  z-index: -1; /* Place the background behind the content */
-  opacity: 1; /* Adjust opacity if needed */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@media (max-width: 768px) {
-  .App::before {
-    position: absolute; /* Use absolute positioning on mobile */
-    background-attachment: scroll; /* Disable fixed background */
-  }
-}
-  
-/* Global h1 styles */
-h1 {
-  color: rgb(177, 232, 253); /* White color */
-  font-weight: 600; /* Font weight 600 */
-  margin-left: 40px;
-  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
-}
-
-/* Snowflake animation container */
-.snowflake-container {
-  position: fixed; /* Fix the snowflakes to cover the entire screen */
-  top: 0;
-  left: 0;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent overflow */
-  opacity: 0.4; /* Low opacity (adjust as needed) */
-  z-index: 0; /* Ensure snowflakes are behind the content */
-  pointer-events: none; /* Allow clicks to pass through */
-}
- 
-/* Section styles */
-section {
-  height: 100%;
-  min-height: 100vh; /* Ensure section takes full viewport height */
-  width: 100%; /* Full width */
+/* Main app container */
+.App {
+  text-align: center;
+  min-height: 100vh; /* Minimum height, can grow */
+  width: 100%;
+  background-image: url('./assets/frozen-background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin-left: 30px; /* Add left margin */
-  padding: 20px; /* Add padding for better spacing */
-  position: relative; /* Ensure content is above the snowflakes */
-  z-index: 2; /* Higher z-index than snowflakes */
-  text-align: left; /* Align text to the left */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  align-items: center;
+  justify-content: flex-start;
+  font-size: clamp(16px, 4vw, 24px);
+  font-weight: 900;
+  color: white;
+  padding-top: 60px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
-  
+.App::-webkit-scrollbar {
+  display: none;
+}
+.App {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+/* Full background pseudo-element */
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Changed to cover full viewport height initially */
+  background-image: url('./assets/frozen-background.jpeg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(9px);
+  z-index: -1;
+  opacity: 1;
+}
 
-  /* Welcome Text and Olaf Image Container */
-.welcome-container {
+/* Adjust background on mobile */
+@media (max-width: 768px) {
+  .App::before {
+    position: absolute;
+    background-attachment: scroll; /* Prevent fixed background issues */
+  }
+}
+
+/* Global h1 styles */
+h1 {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(177, 232, 253);
+  font-weight: 600;
+  margin-left: 40px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.heading {
+  font-size: clamp(40px, 10vw, 90px);
+  text-shadow: 2px 2px 4px #00008B;
+}
+
+/* Snowflake container */
+.snowflake-container {
+  width: 100%;
+  height: 100%; /* Changed to cover full content height */
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: fixed; /* Fixed to cover entire viewport */
+  top: 0;
+  left: 0;
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Section styles */
+section {
+  min-height: 100vh;
+  width: 100%;
   display: flex;
-  align-items: center; /* Align items vertically */
-  justify-content: center; /* Center horizontally */
-  gap: 20px; /* Space between text and image */
-  margin-bottom: 20px; /* Add space below */
+  flex-direction: column;
+  justify-content: center;
+  margin-left: clamp(10px, 3vw, 30px);
+  padding: clamp(10px, 3vw, 20px);
+  position: relative;
+  z-index: 2;
+  text-align: left;
+  overflow-y: visible; /* Changed to visible to avoid clipping */
+  box-sizing: border-box;
 }
 
-/* Olaf Image Styles with Fade-In Transition */
+/* Welcome container */
+.welcome-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  margin-bottom: 20px;
+}
+
+/* Welcome container with transition */
+.welcome-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  margin-bottom: 20px;
+  opacity: 0; /* Start hidden */
+  transform: translateY(50px); /* Start slightly below */
+  animation: slideIn 1s ease-out forwards; /* Slide-in animation */
+}
+
+/* Animation for welcome container */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Olaf container with enhanced transition */
 .olaf-container {
   display: flex;
   align-items: center;
-  opacity: 0; /* Start with 0 opacity */
-  animation: fadeIn 1.5s ease-out 0.5s forwards; /* Apply fade-in animation */
+  opacity: 0; /* Start hidden */
+  transform: scale(0.8); /* Start slightly smaller */
+  animation: fadeScaleIn 1.5s ease-out 0.5s forwards; /* Fade and scale in */
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0; /* Start invisible */
-    transform: translateY(20px); /* Optional: Slide up slightly */
+/* Animation for Olaf image */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  to {
-    opacity: 1; /* Fully visible */
-    transform: translateY(0); /* Optional: Slide back to original position */
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 .olaf-image {
-  width: 150px; /* Adjust image size */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px; /* Optional: Add rounded corners */
+  width: clamp(100px, 20vw, 150px);
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+.olaf-image:hover {
+  transform: scale(1.1); /* Slight enlarge on hover */
 }
 
-/* Social Icons with Names */
+/* Heading with transition */
+.heading {
+  font-size: clamp(40px, 10vw, 90px);
+  text-shadow: 2px 2px 4px #00008B;
+  opacity: 0; /* Start hidden */
+  animation: fadeInText 1.2s ease-out 0.2s forwards; /* Fade in text */
+}
+
+/* Animation for heading */
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px); /* Slide in from left */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Social links */
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Space between icons */
+  gap: clamp(10px, 2vw, 20px);
   margin-top: 20px;
 }
-
 .social-links a {
   color: white;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+  transition: color 0.3s ease, transform 0.3s ease;
 }
-
 .social-links a:hover {
-  color: #87c7f5; /* Gold color on hover */
-  transform: scale(1.2); /* Slightly enlarge icons on hover */
+  color: #87c7f5;
+  transform: scale(1.2);
 }
-
 .social-links span {
-  margin-top: 5px; /* Space between icon and text */
-  font-size: 14px; /* Adjust text size */
+  margin-top: 5px;
+  font-size: clamp(12px, 2vw, 14px);
 }
 
-/* Brief Experience Section */
+/* Olaf image with fade-in */
+.olaf-container {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out 0.5s forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.olaf-image {
+  width: clamp(100px, 20vw, 150px);
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Social links */
+.social-links {
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  margin-top: 20px;
+}
+.social-links a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-links a:hover {
+  color: #87c7f5;
+  transform: scale(1.2);
+}
+.social-links span {
+  margin-top: 5px;
+  font-size: clamp(12px, 2vw, 14px);
+}
+
+/* Brief experience */
 .brief-experience {
-  max-width: 800px;
-  margin: 20px auto;
-  text-align: left; /* Align text to the left */
+  font-weight: 500;
+  max-width: 100%;
+  margin-left: clamp(10px, 5vw, 50px);
+  text-align: left;
 }
-
 .brief-experience ul {
-  list-style-type: disc; /* Add bullet points */
-  padding-left: 20px; /* Add padding for bullet points */
+  list-style-type: disc;
+  padding-left: 20px;
 }
-
 .brief-experience li {
-  margin-bottom: 10px; /* Space between list items */
+  margin-bottom: 10px;
+  font-size: clamp(14px, 3vw, 18px);
 }
 
-/* Explore Content Section */
+/* Explore content */
 .explore-content {
-  max-width: 800px;
+  font-weight: 500;
+  max-width: clamp(300px, 80vw, 800px);
   margin: 20px auto;
   text-align: center;
 }
-
-.explore-button {
+.download-button {
   padding: 10px 20px;
-  background-color: #5de9ff; /* Dark blue */
-  color: white;
+  background-color: #5de9ff;
+  color: rgb(55, 71, 250);
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth hover effect */
+  transition: background-color 0.3s ease;
+}
+.download-button:hover {
+  background-color: #FFD700;
 }
 
-.explore-button:hover {
-  background-color: #FFD700; /* Gold color on hover */
-}
-
-/* Recent Updates Section */
+/* Recent updates */
 .recent-updates {
-  max-width: 800px;
+  font-weight: 500;
+  max-width: clamp(300px, 80vw, 800px);
   margin: 20px auto;
-  text-align: left; /* Align text to the left */
+  text-align: left;
 }
-
 .recent-updates ul {
-  list-style-type: disc; /* Add bullet points */
-  padding-left: 20px; /* Add padding for bullet points */
+  list-style-type: disc;
+  padding-left: 20px;
 }
-
 .recent-updates li {
-  margin-bottom: 10px; /* Space between list items */
+  margin-bottom: 10px;
+  font-size: clamp(14px, 3vw, 18px);
 }
+.recent-updates a { color: #86e6f5; }
+.brief-experience a { color: #3de5ff; }
 
-.recent-updates a{
-  color: #86e6f5;
-}
-
-.brief-experience a{
-  color :#3de5ff;
-}
-
-  /* Fade-in animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .home h1,
-  .home .intro,
-  .home .social-icons {
-    animation: fadeIn 1.5s ease-out; /* Apply fade-in animation */
-  }
-  
-  
-  /* Navbar styles */
-  .nav {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%; /* Full width */
-    display: flex;
-    background-color: rgba(62, 148, 245, 0.5);
-    backdrop-filter: blur(10px) !important;
-    align-items: center;
-    padding: 10px 20px;
-    border-bottom: 2px solid black; /* Black border at the bottom */
-    z-index: 3; /* Ensure navbar is above other content */
-  }
-  
-  /* Navbar when scrolled */
-  .nav .scrolled {
-    background-color: rgba(84, 215, 238, 0.7); /* Low opacity background */
-    backdrop-filter: blur(10px) !important; /* Blur effect */
-  }
-  
-  /* Icon container */
-  .icon-container {
-    margin-right: auto; /* Push icon to the left corner */
-  }
-  
-  .icon {
-    width: 40px; /* Adjust icon size */
-    height: 40px;
-  }
-  
-  /* Links container */
-  .links-container {
-    display: flex;
-    gap: 30px; /* Space between links */
-    position: absolute; /* Position the links absolutely */
-    left: 50%; /* Move the container to the middle */
-    transform: translateX(-50%); /* Center the container */
-    transition: opacity 0.3s ease; /* Smooth transition for text */
-  }
-  
-  /* Link styles */
-  .link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 5px 10px; /* Add padding for hover effect */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-  }
-  
-  /* Hover effect */
-  .link:hover {
-    color: #27b6f3; /* Dark blue text */
-  }
-  
-  /* About section styles */
-  .about-content {
-    max-width: 1000px;
-    margin-left: 30px;
-    position: relative;
-    justify-content: flex-start;
-    padding: 20px;
-    text-align: left; 
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transitions */
-  }
-  
-  .about-content h2 {
-    color: #3de5ff; /* Dark blue */
-    margin-top: 20px;
-  }
-  
-  .about-content p {
-    font-size: 20px;
-    line-height: 1.6;
-    font-weight: 600;
-    color:white;
-  }
-  
-  /* Contact section styles */
-  .contact {
-    margin-top: 50px;
-    text-align: center; /* Align text to the left */
-    padding: 50px;
-  }
-  
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent white background */
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid white; /* Solid white border */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transitions */
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
-    color:black; /* Dark blue text */
-    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
-  }
-  
-  .contact-form textarea {
-    resize: vertical; /* Allow vertical resizing */
-  }
-  
-  .contact-form button {
-    padding: 10px;
-    background-color: #5de9ff; /* Dark blue */
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth hover effect */
-  }
-  
-  .contact-form button:hover {
-    background-color: #02adad; /* Gold color on hover */
-  }
-
-  /* Projects section styles */
-.projects {
-  text-align: center;
-  padding: 50px;
-}
-
-.projects-row {
-  margin-bottom: 40px; /* Space between rows */
-}
-
-.projects-row h2 {
-  color: #3de5ff; /* Light blue color for headings */
-  margin-bottom: 20px; /* Space below the heading */
-}
-
-.projects-grid {
+/* Navbar */
+.nav {
+  font-weight: 500;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  background-color: rgba(62, 148, 245, 0.5);
+  backdrop-filter: blur(10px);
+  align-items: center;
+  padding: clamp(5px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
+  border-bottom: 2px solid black;
+  z-index: 1000;
+  box-sizing: border-box;
 }
+.nav.scrolled {
+  background-color: rgba(84, 215, 238, 0.7);
+}
+.icon-container { margin-right: auto; }
+.icon { width: clamp(30px, 5vw, 40px); height: clamp(30px, 5vw, 40px); }
+.links-container {
+  display: flex;
+  gap: clamp(10px, 3vw, 30px);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease;
+}
+.link {
+  color: white;
+  text-decoration: none;
+  font-size: clamp(14px, 2vw, 18px);
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.link:hover { color: #27b6f3; }
 
-.project-card {
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+/* About section */
+.about-content {
+  max-width: clamp(300px, 90vw, 1000px);
+  margin-left: clamp(10px, 3vw, 30px);
   padding: 20px;
-  border-radius: 10px;
-  width: 200px;
   text-align: left;
-  cursor: pointer; /* Change cursor to pointer */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.about-content h2 { color: #3de5ff; margin-top: 20px; }
+.about-content p {
+  font-size: clamp(16px, 3vw, 20px);
+  line-height: 1.6;
+  font-weight: 600;
+  color: white;
 }
 
-.project-card:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
-}
-  
-  /* Skills section styles */
-.skills {
-  text-align: left;
-  padding: 50px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.skills h1 {
+/* Contact section */
+.contact {
+  position: relative;
+  margin-top: 50px;
   text-align: center;
-  margin-bottom: 40px;
-  color: #3de5ff; /* Light blue color */
+  padding: clamp(20px, 5vw, 50px);
+  width: 100%;
+  min-height: 100vh;
 }
 
-.skills-category {
+/* Contact header for Olaf image and lines */
+.contact-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3vw, 40px);
   margin-bottom: 30px;
 }
 
-.skills-category h2 {
-  color: #3de5ff; /* Light blue color */
-  margin-bottom: 10px;
-  font-size: 24px;
-}
-
-.skills-category ul {
-  list-style-type: none; /* Remove bullet points */
-  padding-left: 0;
-}
-
-.skills-category li {
-  font-size: 18px;
-  margin-bottom: 8px;
-  padding: 8px;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.skills-category li:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Slightly darker on hover */
-}
-
-
-  
-/* Projects section styles */
-.projects {
-  text-align: center;
-  padding: 50px;
-}
-
-.projects-grid {
+/* Olaf container (reused from welcome page) */
+.olaf-container {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeScaleIn 1.5s ease-out 0.5s forwards;
+}
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.olaf-image {
+  width: clamp(100px, 20vw, 150px);
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+.olaf-image:hover {
+  transform: scale(1.1);
 }
 
-.project-card {
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+/* Attractive lines beside Olaf */
+.contact-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.contact-lines .line1 {
+  font-size: clamp(18px, 3vw, 24px);
+  color: #13dcfb; /* Light blue */
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeInText 1.2s ease-out 0.7s forwards;
+}
+.contact-lines .line2 {
+  font-size: clamp(16px, 2.5vw, 20px);
+  color: #bbdbf3; /* Softer blue */
+  font-weight: 400;
+  opacity: 0;
+  animation: fadeInText 1.2s ease-out 0.9s forwards;
+}
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Contact form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: clamp(300px, 80vw, 500px);
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
-  width: 200px;
-  text-align: left;
-  cursor: pointer; /* Change cursor to pointer */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  border: 2px solid white;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.contact-form textarea {
+  resize: vertical;
+}
+.contact-form button {
+  padding: 10px;
+  background-color: #5de9ff;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.contact-form button:hover {
+  background-color: #02adad;
 }
 
-.project-card:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
-}
-
-/* Popup styles */
+/* Popup */
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #00008B; /* Dark blue */
+  background-color: #00008B;
   color: white;
-  padding: 20px;
+  padding: clamp(15px, 3vw, 20px);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Ensure popup is above other content */
+  z-index: 1000;
   text-align: center;
+  width: clamp(200px, 80vw, 400px);
 }
-
 .popup button {
   margin-top: 10px;
   padding: 5px 10px;
-  background-color: #5de9ff; /* Light blue */
+  background-color: #5de9ff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .popup button:hover {
-  background-color: #FFD700; /* Gold color on hover */
+  background-color: #FFD700;
+}
+/* Projects section */
+.projects {
+  font-weight: 500;
+  text-align: center;
+  padding: clamp(20px, 5vw, 50px);
+}
+.projects-row { margin-bottom: 40px; }
+.projects-row h2 { color: #3de5ff; margin-bottom: 20px; }
+.projects-grid {
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 20px);
+  flex-wrap: wrap;
+}
+.project-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  width: clamp(150px, 45vw, 200px);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive styles */
+/* Skills section */
+.skills {
+  font-weight: 500;
+  text-align: left;
+  padding: clamp(20px, 5vw, 50px);
+  max-width: clamp(300px, 90vw, 800px);
+  margin: 0 auto;
+}
+.skills h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #3de5ff;
+}
+.skills-category { margin-bottom: 30px; }
+.skills-category h2 {
+  color: #3de5ff;
+  margin-bottom: 10px;
+  font-size: clamp(20px, 4vw, 24px);
+}
+.skills-category ul { list-style-type: none; padding-left: 0; }
+.skills-category li {
+  font-size: clamp(14px, 3vw, 18px);
+  margin-bottom: 8px;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.skills-category li:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #00008B;
+  color: white;
+  padding: clamp(15px, 3vw, 20px);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  text-align: center;
+  width: clamp(200px, 80vw, 400px);
+}
+.popup button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #5de9ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.popup button:hover { background-color: #FFD700; }
+
+/* Mobile Devices (up to 768px) */
 @media (max-width: 768px) {
-  /* Adjust navbar for smaller screens */
-  .nav {
-    padding: 0.5rem 5%; /* Smaller padding */
+  .App {
+    padding-top: 50px;
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    justify-content: flex-start;
+    overflow-y: scroll;
+  }
+  .App::before {
+    position: absolute; /* Switch to absolute on mobile for full content coverage */
+    height: 100%; /* Match the full height of the .App container */
+    background-attachment: scroll;
+  }
+  .snowflake-container {
+    position: absolute; /* Changed to absolute to match content height */
+    height: 100%; /* Match full content height */
+  }
+  section {
+    min-height: 75vh;
+    height: auto;
+    padding: 10px;
+    overflow-y: visible;
   }
 
-  .icon {
-    width: 2rem; /* Smaller icon size */
-    height: 2rem;
+  .contact {
+    margin-top: 20px;
+    padding: 15px;
+    min-height: 75vh; /* Adjusted for mobile */
   }
 
-  .links-container {
-    gap: 1rem; /* Smaller gap between links */
+  .heading { font-size: clamp(30px, 8vw, 40px); margin-left: 10px; }
+  .welcome-container { flex-direction: column; gap: 10px; }
+  .olaf-image { width: clamp(80px, 15vw, 100px); }
+  .social-links { flex-direction: row; gap: 10px; }
+  .brief-experience, .explore-content, .recent-updates {
+    margin-left: 10px;
+    max-width: 95%;
   }
+  .nav { padding: 5px 10px; }
+  .links-container { gap: 8px; left: 50%; transform: translateX(-50%); }
+  .link { font-size: clamp(12px, 2vw, 14px); }
+  .about-content, .contact, .projects, .skills { padding: 15px; }
+  .project-card { width: 100%; max-width: 300px; }
+  .contact { position: relative; margin-top: 20px; }
+}
 
-  .link {
-    font-size: 1rem; /* Smaller font size */
+/* Tablet Devices (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .heading { font-size: clamp(40px, 8vw, 60px); }
+  .welcome-container { gap: 15px; }
+  .olaf-image { width: clamp(100px, 15vw, 120px); }
+  .social-links { gap: 15px; }
+  .brief-experience, .explore-content, .recent-updates {
+    margin-left: 20px;
+    max-width: 85%;
   }
+  .links-container { gap: 15px; }
+  .project-card { width: 45%; max-width: 250px; }
+}
 
-  /* Adjust home section */
-  .home h1 {
-    font-size: 2rem; /* Smaller heading size */
+/* Mobile Devices (up to 768px) */
+@media (max-width: 768px) {
+  .contact {
+    margin-top: 20px;
+    padding: 15px;
+    min-height: 75vh;
   }
-
-  .social-icons {
-    gap: 1rem; /* Smaller gap between icons */
+  .contact-header {
+    flex-direction: column; /* Stack image and text on mobile */
+    gap: 15px;
+    margin-bottom: 20px;
   }
-
-  .icon {
-    width: 2rem; /* Smaller icon size */
-    height: 2rem;
+  .olaf-container {
+    animation: fadeScaleIn 1s ease-out 0.3s forwards; /* Adjusted timing */
   }
-
-  /* Adjust about section */
-  .about-content {
-    padding: 1rem; /* Smaller padding */
+  .contact-lines {
+    text-align: center; /* Center text on mobile */
   }
-
-  .about-content h2 {
-    font-size: 1.5rem; /* Smaller heading size */
+  .contact-lines .line1 {
+    font-size: clamp(16px, 4vw, 20px);
+    animation: fadeInText 1s ease-out 0.5s forwards;
   }
-
-  .about-content p {
-    font-size: 1rem; /* Smaller text size */
-  }
-
-  /* Adjust skills section */
-  .skills-grid {
-    gap: 1rem; /* Smaller gap between skills */
-  }
-
-  .skill {
-    width: 45%; /* Smaller skill cards */
-  }
-
-  .skill-icon {
-    width: 2rem; /* Smaller icon size */
-    height: 2rem;
-  }
-
-  /* Adjust projects section */
-  .projects-grid {
-    gap: 1rem; /* Smaller gap between project cards */
-  }
-
-  .project-card {
-    width: 45%; /* Smaller project cards */
-  }
-
-  /* Adjust contact section */
-  .contact-form {
-    width: 90%; /* Full width on smaller screens */
+  .contact-lines .line2 {
+    font-size: clamp(14px, 3.5vw, 18px);
+    animation: fadeInText 1s ease-out 0.7s forwards;
   }
 }
 
-@media (max-width: 480px) {
-  /* Further adjustments for very small screens */
-  .home h1 {
-    font-size: 1.5rem; /* Even smaller heading size */
-  }
-
-  .social-icons {
-    gap: 0.5rem; /* Further reduce gap between icons */
-  }
-
-  .icon {
-    width: 1.5rem; /* Even smaller icon size */
-    height: 1.5rem;
-  }
-
-  .about-content h2 {
-    font-size: 1.2rem; /* Smaller heading size */
-  }
-
-  .about-content p {
-    font-size: 0.9rem; /* Smaller text size */
-  }
-
-  .skills-grid {
-    gap: 0.5rem; /* Further reduce gap between skills */
-  }
-
-  .skill {
-    width: 100%; /* Full width skill cards */
-  }
-
-  .skill-icon {
-    width: 1.5rem; /* Even smaller icon size */
-    height: 1.5rem;
-  }
-
-  .projects-grid {
-    gap: 0.5rem; /* Further reduce gap between project cards */
-  }
-
-  .project-card {
-    width: 100%; /* Full width project cards */
-  }
-
-  .contact-form input,
-  .contact-form textarea {
-    font-size: 0.9rem; /* Smaller text size */
-  }
-
-  .contact-form button {
-    font-size: 0.9rem; /* Smaller button text size */
+/* Tablet Devices (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .contact-header {
+    gap: 20px;
   }
 }

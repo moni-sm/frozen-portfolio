@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import olaf from '../assets/olaf.png'
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -11,7 +12,6 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Send form data to the backend
     try {
       const response = await fetch('http://localhost:5000/api/contact', {
         method: 'POST',
@@ -25,17 +25,10 @@ const Contact = () => {
       if (data.success) {
         setPopupMessage('Message sent successfully!');
         setShowPopup(true);
-      
-        // Clear the form fields
         setName('');
         setEmail('');
         setMessage('');
-      
-        // Automatically close the popup after 3 seconds
-        setTimeout(() => {
-          setShowPopup(false);
-        }, 3000);
-      
+        setTimeout(() => setShowPopup(false), 3000);
       } else {
         setPopupMessage('Failed to send message. Please try again.');
         setShowPopup(true);
@@ -50,6 +43,17 @@ const Contact = () => {
   return (
     <section className="contact">
       <h1>Contact Me</h1>
+      {/* Olaf image and attractive lines container */}
+      <div className="contact-header">
+        <div className="olaf-container">
+          <img src={olaf} alt="Olaf" className="olaf-image" />
+        </div>
+        <div className="contact-lines">
+          <p className="line1">Reach out and let’s melt the ice!</p>
+          <p className="line2">Your message warms my snowy heart!</p>
+        </div>
+      </div>
+      {/* Contact form */}
       <form className="contact-form" onSubmit={handleSubmit}>
         <input
           type="text"

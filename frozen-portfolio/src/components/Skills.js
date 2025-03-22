@@ -51,13 +51,12 @@ const Skills = () => {
     <section className="skills">
       <div className='resume-download'>
       <h2>My Resume</h2>
-      <a
-        href="https://drive.google.com/file/d/1alE61riyhedWV9GUHW4dhhmH8pEsd9qp/view?usp=drivesdk"
-        download="YourName_Resume.pdf"
-        className="download-button"
-        onClick={handleDownload}>
-        Download Resume
-      </a>
+      <button className="download-button" onClick={() => {
+          handleDownload();
+          window.location.href = "https://drive.google.com/uc?export=download&id=1alE61riyhedWV9GUHW4dhhmH8pEsd9qp";
+        }}>
+          Download Resume
+        </button>
       </div>
 
 
