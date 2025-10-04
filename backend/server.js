@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000; // Use environment variable for port or d
 // Middleware
 app.use(
   cors({
-    origin: 'https://frozen-portfolio-frontendm.onrender.com', // Allow requests from this origin
+    origin: 'http://localhost:5000', 
     methods: 'GET,POST,PUT,DELETE', // Allow these HTTP methods
     credentials: true, // Allow credentials (cookies, authorization headers)
   })
@@ -39,7 +39,7 @@ app.post('/api/contact', (req, res) => {
   // Email options
   const mailOptions = {
     from: process.env.EMAIL_USER, // Sender email
-    to: process.env.EMAIL_USER, // Your email (where you want to receive messages)
+    to: process.env.EMAIL_ME, // Your email (where you want to receive messages)
     subject: `New Message from ${name}`, // Email subject
     text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`, // Email body
   };
