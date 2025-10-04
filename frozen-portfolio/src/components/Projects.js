@@ -6,7 +6,7 @@ const Projects = () => {
 
   // Fetch projects from the backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/projects')
+    fetch('https://meandmyself.onrender.com/api/projects')
       .then((response) => response.json())
       .then((data) => setProjects(data))
       .catch((error) => console.error('Error fetching projects:', error));
