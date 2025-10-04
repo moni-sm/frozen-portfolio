@@ -61,13 +61,13 @@ function App() {
                     <h2>My Experience</h2>
                     <ul>
                       <li>
-                        <strong>Food Delivery Web App (MERN Stack):</strong> Built a full-stack food delivery app with Stripe integration for payments.<Link to="/projects">View Projects</Link>
+                        <strong>Food Delivery Web App (MERN Stack):</strong> Built a full-stack food delivery app with Stripe integration for payments. <Link to="/projects">View Projects</Link>
                       </li>
                       <li>
                         <strong>Gemini Clone (React + Google API):</strong> Created a clone of the Gemini app using React and Google's API for AI-powered interactions. <Link to="/projects">View Projects</Link>
                       </li>
                       <li>
-                        <strong>Practice Projects:</strong> Developed fun games like Tic Tac Toe and Rock Paper Scissors to sharpen my skills.<Link to="/projects">View Projects</Link>
+                        <strong>Practice Projects:</strong> Developed fun games like Tic Tac Toe and Rock Paper Scissors to sharpen my skills. <Link to="/projects">View Projects</Link>
                       </li>
                       <li>
                         <strong>Round-Robin Distributor:</strong> Built a coupon distribution system that ensures users get a new coupon only after 60 minutes. <Link to="/projects">View Projects</Link>
